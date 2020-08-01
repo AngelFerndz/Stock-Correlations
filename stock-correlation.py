@@ -9,27 +9,38 @@ import yfinance as yf
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-# set features
-print('- Stock Correlation Finder -')
-tickers = input("> Enter ticker to find correlation : ").split()
-p = input('> Enter time period [1mo, 1day, max] : ')
+# Set features
+print('-- Stock Correlation Finder --')
 
+# Get user input
+ticker_string = input("> Enter ticker to find correlation : ")
+ticker_arr = ticker_string.split()
+
+p = input('> Enter time period [1mo, max] : ')
+col = input("> Chose data [Close, Open, High, Low, Volume] : ")
+
+# Get data
+df = pd.DataFrame()
 print("------------------------------------------- Correlations")
 
-df = pd.DataFrame()
-
-# gather data
-for t in tickers:
+for t in ticker_arr:
     a = yf.Ticker(t).history(period=p)
-    df[t] = a['Close']
+    df[t] = a[col]
     
-# scale data
+# Scale data
 scale = StandardScaler()
 data = pd.DataFrame(scale.fit_transform(df))
-data.columns = tickers
+data.columns = ticker_arr
 
-# plot data
-data.plot(title='Correlation Period {}'.format(p), figsize=(10,5), lw=2)
+# Plot data
+data.plot(title='Correlation period {}'.format(p), figsize=(10,5), lw=2)
 corr = data.corr()
 
 print(corr)
+
+# Save File
+save = input("> Save as csv file? [y, n]: ")
+
+if save == 'y':
+    corr.to_csv('{} Correlation.csv'.format(ticker_string))
+    print("> File saved")
