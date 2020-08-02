@@ -13,13 +13,12 @@ from sklearn.preprocessing import StandardScaler
 print('-- Stock Correlation Finder --')
 
 # Get user input
-ticker_string = input("> Enter ticker to find correlation : ")
-ticker_arr = ticker_string.split()
-
+ticker_string = input("> Enter two or more tickers: ")
 p = input('> Enter time period [1mo, max] : ')
-col = input("> Chose data [Close, Open, High, Low, Volume] : ")
+col = input("> Chose data [Close, Open, High, Low, Volume]: ")
 
 # Get data
+ticker_arr = ticker_string.split()
 df = pd.DataFrame()
 print("------------------------------------------- Correlations")
 
@@ -32,15 +31,19 @@ scale = StandardScaler()
 data = pd.DataFrame(scale.fit_transform(df))
 data.columns = ticker_arr
 
-# Plot data
-data.plot(title='Correlation period {}'.format(p), figsize=(10,5), lw=2)
+# Calculate correlation    
 corr = data.corr()
-
 print(corr)
 
-# Save File
+# Plot data
+plot = input("> Plot data? [y, n]: ")
+
+if plot == 'y':
+    data.plot(title='Correlation period {}'.format(p), figsize=(10,5), lw=2)
+
+# Save data
 save = input("> Save as csv file? [y, n]: ")
 
 if save == 'y':
-    corr.to_csv('{} Correlation.csv'.format(ticker_string))
+    corr.to_csv('Correlation {}.csv'.format(ticker_string))
     print("> File saved")
