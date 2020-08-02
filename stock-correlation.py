@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jul 30 20:21:52 2020
-
-@author: angel
-"""
-
 import yfinance as yf
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
