@@ -1,5 +1,5 @@
 # Stock-Correlations
-Compares prices with stocks using yfinance, pandas and sklearn
+Compares stock prices.
 
 Required installs
 > yfinance
